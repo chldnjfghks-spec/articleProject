@@ -15,7 +15,7 @@ public class Article {
     private List<Comment> commentList = new ArrayList<>();
 
 
-    public void setId(long id) {
+    public void setId(Long id) {
     }
 
     public void setName(String name) {
@@ -56,10 +56,14 @@ public class Article {
     public void setUpdatedDate(LocalDateTime updatedDate) {
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
     public void addComments(Comment comment) {
+        commentList.add(comment);
+    }
+    public List<Comment> getCommentList() {
+        return commentList;
     }
 }

@@ -1,13 +1,20 @@
 package entity;
 
 public class Comment {
-    public long getCommentId;
+
+    private Long commentId;
+    private Long articleId;
     private String name;
     private String content;
-    private Long ArticleId;
-    private Long CommentId;
 
+    // getter
+    public Long getCommentId() {
+        return commentId;
+    }
 
+    public Long getArticleId() {
+        return articleId;
+    }
 
     public String getName() {
         return name;
@@ -17,22 +24,20 @@ public class Comment {
         return content;
     }
 
-    public long getArticleId() {
-        return ArticleId;
-    }
-    public long getCommentId(){
-        return CommentId;
+    // setter
+    public void setCommentId(Long commentId) {
+        this.commentId = commentId;
     }
 
-    public void setCommentId(long commentId) {
-    }
-
-    public void setArticleId(long articleId) {
+    public void setArticleId(Long articleId) {
+        this.articleId = articleId;
     }
 
     public void setName(String name) {
+        this.name = name;
     }
 
     public void setContent(String content) {
+        this.content = content;
     }
 }

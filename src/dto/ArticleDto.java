@@ -90,7 +90,7 @@ public class ArticleDto extends CommonField {
                 article.getCommentList()
         );
     }
-    public static Article fromDTO(ArticleDto dto){
+    public static Article fromDto(ArticleDto dto){
 
         Article article = new Article();
         article.setId(dto.getId());

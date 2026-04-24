@@ -201,7 +201,7 @@ public class ArticleDAO implements CrudInterface {
             Connection conn = DBConn.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, comment.getContent());
-            ps.setLong(2,comment.getCommentId);
+            ps.setLong(2,comment.getCommentId());
 
             ps.executeUpdate();
 

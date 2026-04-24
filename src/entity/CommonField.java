@@ -2,7 +2,7 @@ package entity;
 
 import java.time.LocalDateTime;
 
-public class CommonFieId {
+public class CommonField {
     private LocalDateTime insertedDate;
     private LocalDateTime updatedDate;
 

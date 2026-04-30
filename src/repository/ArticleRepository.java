@@ -27,7 +27,7 @@ public class ArticleRepository implements CrudInterface {
     @Override
     public Article detail(Long id) {
         for (Article article : list) {
-            if (article.getId() == id) {
+            if (article.getId().equals(id)) {
                 return article;
             }
         }

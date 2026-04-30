@@ -14,13 +14,19 @@ public class ArticleView {
 
 
 
-        private Scanner sc = new Scanner(System.in);
-        private ArticleService articleService = new ArticleService();
-        private CommentService commentService = new CommentService();
+        private Scanner sc;
+        private ArticleService articleService;
+        private CommentService commentService;
 
         private List<ArticleDto> articles;
 
-        public void showAll() {
+    public ArticleView(Scanner sc, ArticleService articleService, CommentService commentService) {
+        this.sc = sc;
+        this.articleService = articleService;
+        this.commentService = commentService;
+    }
+
+    public void showAll() {
 
             articles = articleService.all();
 

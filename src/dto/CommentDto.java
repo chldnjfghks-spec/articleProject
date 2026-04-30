@@ -17,7 +17,7 @@ public class CommentDto {
     }
 
     public Long getCommertId() {
-        return articleId;
+        return commentId;
     }
 
     public void setCommertId(Long commertId) {

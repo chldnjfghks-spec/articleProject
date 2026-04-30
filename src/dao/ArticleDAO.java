@@ -10,6 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ArticleDAO implements CrudInterface {
+    private Connection conn;
+
+    public ArticleDAO(Connection conn) {
+        this.conn = conn;
+    }
 
     @Override
     public List<Article> all() {
@@ -18,9 +23,8 @@ public class ArticleDAO implements CrudInterface {
         String sql = "SELECT * FROM article ORDER BY id DESC";
 
         try {
-            Connection conn = DBConn.getConnection();
-            PreparedStatement pst = conn.prepareStatement(sql);
-            ResultSet rs = pst.executeQuery();
+            PreparedStatement ps = this.conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
 
             while (rs.next()){
                 Article article = new Article();
@@ -28,6 +32,9 @@ public class ArticleDAO implements CrudInterface {
                 article.setName(rs.getString("name"));
                 article.setTitle(rs.getString("title"));
                 article.setContent(rs.getString("content"));
+                article.setInsertedDate(
+                        rs.getTimestamp("inserted_date").toLocalDateTime()
+                );
 
                 articles.add(article);
             }
@@ -41,11 +48,11 @@ public class ArticleDAO implements CrudInterface {
         String sql = "SELECT * FROM comments WHERE article_id=?";
 
         try {
-            Connection conn = DBConn.getConnection();
+
 
             for (Article article : articles) {
 
-                PreparedStatement ps = conn.prepareStatement(sql);
+                PreparedStatement ps = this.conn.prepareStatement(sql);
                 ps.setLong(1, article.getId());
 
                 ResultSet rs = ps.executeQuery();
@@ -72,18 +79,16 @@ public class ArticleDAO implements CrudInterface {
     @Override
     public void newArticle(Article article) {
 
-        String sql = "INSERT INTO article(name, title, content, inserted_date, updated_date) VALUES (?,?,?,?,?)";
-
+        String sql = "INSERT INTO article(name, title, content, inserted_date) VALUES (?,?,?,?)";
         try {
-            Connection conn = DBConn.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql);
+
+            PreparedStatement ps = this.conn.prepareStatement(sql);
 
             ps.setString(1, article.getName());
             ps.setString(2, article.getTitle());
             ps.setString(3, article.getContent());
 
             ps.setTimestamp(4, Timestamp.valueOf(article.getInsertedDate()));
-            ps.setTimestamp(5, Timestamp.valueOf(article.getUpdatedDate()));
 
             ps.executeUpdate();
 
@@ -98,8 +103,8 @@ public class ArticleDAO implements CrudInterface {
 
         String sql = "SELECT * FROM article WHERE id=?";
         try {
-            Connection conn = DBConn.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql);
+
+            PreparedStatement ps = this.conn.prepareStatement(sql);
 
             ps.setLong(1, id);
              ResultSet rs = ps.executeQuery();
@@ -112,7 +117,11 @@ public class ArticleDAO implements CrudInterface {
                  article.setContent(rs.getString("content"));
 
                  article.setInsertedDate(rs.getTimestamp("inserted_date").toLocalDateTime() );
-                 article.setUpdatedDate(rs.getTimestamp("updated_date").toLocalDateTime()   );
+                 Timestamp ts = rs.getTimestamp("updated_date");
+
+                 if (ts != null) {
+                     article.setUpdatedDate(ts.toLocalDateTime());
+                 }
 
              }
         } catch (Exception e) {
@@ -134,8 +143,8 @@ public class ArticleDAO implements CrudInterface {
         int result = 0;
 
         try {
-            Connection conn = DBConn.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql);
+
+            PreparedStatement ps = this.conn.prepareStatement(sql);
 
             ps.setLong(1, id);
 
@@ -152,8 +161,8 @@ public class ArticleDAO implements CrudInterface {
                 " inserted_date=?, updated_date=? WHERE id=?";
 
         try {
-            Connection conn = DBConn.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql);
+
+            PreparedStatement ps = this.conn.prepareStatement(sql);
 
             ps.setString(1, article.getName());
             ps.setString(2, article.getTitle());
@@ -178,8 +187,8 @@ public class ArticleDAO implements CrudInterface {
         String sql = "INSERT INTO comments(name, content, article_id) VALUES(?,?,?)";
 
         try {
-            Connection conn = DBConn.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql);
+
+            PreparedStatement ps = this.conn.prepareStatement(sql);
 
             ps.setString(1, comment.getName());
             ps.setString(2, comment.getContent());
@@ -198,8 +207,8 @@ public class ArticleDAO implements CrudInterface {
         String sql = "UPDATE comments SET content=? WHERE comment_id=?";
 
         try {
-            Connection conn = DBConn.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql);
+
+            PreparedStatement ps = this.conn.prepareStatement(sql);
             ps.setString(1, comment.getContent());
             ps.setLong(2,comment.getCommentId());
 
@@ -216,8 +225,7 @@ public class ArticleDAO implements CrudInterface {
         String sql = "DELETE FROM comments WHERE comment_id=?";
 
         try {
-            Connection conn = DBConn.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql);
+            PreparedStatement ps = this.conn.prepareStatement(sql);
 
             ps.setLong(1, deleteCommentId);
 

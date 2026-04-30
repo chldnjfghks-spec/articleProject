@@ -6,7 +6,11 @@ import dto.CommentDto;
 import entity.Comment;
 
 public class CommentService {
-    CrudInterface dao = new ArticleDAO();
+    private CrudInterface dao;
+
+    public CommentService(CrudInterface dao) {
+        this.dao = dao;
+    }
 
     public  void commentAdd(CommentDto comment){
         Comment entity = CommentDto.fromDTO(comment);

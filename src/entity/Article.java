@@ -16,15 +16,19 @@ public class Article {
 
 
     public void setId(Long id) {
+        this.id = id;
     }
 
     public void setName(String name) {
+        this.name = name;
     }
 
     public void setTitle(String title) {
+        this.title = title;
     }
 
     public void setContent(String content) {
+        this.content = content;
     }
 
     public String getName() {
@@ -47,13 +51,12 @@ public class Article {
         return updatedDate;
     }
 
-    public void setInsertedDate() {
-    }
-
     public void setInsertedDate(LocalDateTime insertedDate) {
+        this.insertedDate = insertedDate;
     }
 
     public void setUpdatedDate(LocalDateTime updatedDate) {
+        this.updatedDate = updatedDate;
     }
 
     public Long getId() {
